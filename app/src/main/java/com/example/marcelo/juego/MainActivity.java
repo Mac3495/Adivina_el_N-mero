@@ -2,6 +2,7 @@ package com.example.marcelo.juego;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,40 +28,52 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void intentos(View view){
-        numIntentos = Integer.parseInt(intentos.getText().toString());
-        botonIntentos.invalidate();
-        numAdivinar = (int) (Math.random()*10);
-        Toast.makeText(this, "Intentos ingresados ", Toast.LENGTH_SHORT).show();
+    public void agregarIntentos(View view){
+        if(intentos.getText().toString().length() > 0){
+            numIntentos = Integer.parseInt(intentos.getText().toString());
+            botonIntentos.invalidate();
+            numAdivinar = (int) (Math.random()*10);
+            Log.i("Numero-------------", numAdivinar + "");
+            Toast.makeText(this, "Intentos ingresados ", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Ingresa el número de intentos", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void jugar (View view){
-        numIngresado = Integer.parseInt(numero.getText().toString());
-        if(numIngresado > 10){
-            Toast.makeText(this, "Solo numeros del 0 a 10", Toast.LENGTH_SHORT).show();
-            numero.setText("");
-        }
-        else {
-            if (limite <= numIntentos) {
-                if (numIngresado == numAdivinar) {
-                    resultado.setText("Ganó en " + limite + " intentos");
-                    limite = numIntentos + 1;
-                } else if(numIngresado<numAdivinar){
-                    Toast.makeText(this, "Fallaste", Toast.LENGTH_SHORT).show();
-                    numero.setText("");
-                    resultado.setText("El numero es mayor");
-                    limite++;
+        if(intentos.getText().toString().length() > 0){
+            numIngresado = Integer.parseInt(numero.getText().toString());
+            if(numIngresado > 10){
+                Toast.makeText(this, "Solo numeros del 0 a 10", Toast.LENGTH_SHORT).show();
+                numero.setText("");
+            }
+            else {
+                if (limite < numIntentos) {
+                    if (numIngresado == numAdivinar) {
+                        resultado.setText("Ganó en " + limite + " intentos");
+                        limite = numIntentos + 1;
+                    } else if(numIngresado<numAdivinar){
+                        Toast.makeText(this, "Fallaste", Toast.LENGTH_SHORT).show();
+                        numero.setText("");
+                        resultado.setText("El numero es mayor");
+                        limite++;
                     }else{
-                    Toast.makeText(this, "Fallaste", Toast.LENGTH_SHORT).show();
-                    numero.setText("");
-                    resultado.setText("El numero es menor");
-                    limite++;
+                        Toast.makeText(this, "Fallaste", Toast.LENGTH_SHORT).show();
+                        numero.setText("");
+                        resultado.setText("El numero es menor");
+                        limite++;
+                    }
                 }
-                if (limite > numIntentos) {
+                else {
                     resultado.setText("PERDISTE");
                 }
             }
         }
+        else{
+            Toast.makeText(this, "Ingresa el número de intentos", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void reinicia (View view){
