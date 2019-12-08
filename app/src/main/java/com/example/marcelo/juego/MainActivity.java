@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             //Generamos el número aleatorio entre 0 y 10 el cual debe ser adivinado
             numAdivinar = (int) (Math.random()*10);
+            Log.i("Numero ---------- ", numAdivinar + "");
 
             //Mostramos el mensaje "Intentos ingresados"
             Toast.makeText(this, "Intentos ingresados ", Toast.LENGTH_SHORT).show();
@@ -136,8 +137,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                //En caso de que el límite sea mayor al númeor de intentos el jugador pierde
-                else {
+                /*En caso de que el límite sea mayor o igual al número de intentos se revisa si el
+                * numero ingresado en el ultimo intento es igual al numero que se tiene que adivinar
+                * en caso de que asi sea el jugador gana en su ultimo intento*/
+                else if(numIngresado == numAdivinar){
+                    resultado.setText("Ganó en " + limite + " intentos");
+                }
+
+                /*En caso de que el numero ingresado en el ultimo intento no sea igual al numero que
+                se tiene que adivinar el jugador pierde */
+                else{
                     resultado.setText("PERDISTE");
                 }
             }
